@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./weatherApp.css";
+import InfoBox from "./components/infoBox";
 
 const weatherApp = () => {
 
@@ -92,25 +93,10 @@ const weatherApp = () => {
             </div>
 
             <div className="extra-info-grid">
-              <div className="info-box">
-                <span>💧 Humidity</span>
-                <strong>{ current?.humidity ? current?.humidity : '--' } %</strong>
-              </div>
-
-              <div className="info-box">
-                <span>🌬 Wind</span>
-                <strong>{ current?.wind_kph ? current?.wind_kph : '--' } Km/h</strong>
-              </div>
-
-              <div className="info-box">
-                <span>👁 Visibility</span>
-                <strong>{ current?.vis_km ? current?.vis_km : '--' } km</strong>
-              </div>
-
-              <div className="info-box">
-                <span>☀ UV Index</span>
-                <strong>{ current?.uv ? current?.uv : '-' }</strong>
-              </div>
+              <InfoBox icon='💧' title='Humidity' value= {current?.humidity} unit='%' />
+              <InfoBox icon='🌬' title='Humidity' value= {current?.wind_kph} unit='Km/h' />
+              <InfoBox icon='👁' title='Humidity' value= {current?.vis_km} unit='km' />
+              <InfoBox icon='☀' title='Humidity' value= {current?.uv} unit='' />
             </div>
           </div>
 

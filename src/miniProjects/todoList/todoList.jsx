@@ -1,6 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import './todolist.css'
+import TodoHeader from './components/todoHeader';
+import TaskForm from './components/taskForm';
+import TaskFooter from './components/todoFooter';
+import ProgressBar from './components/progressBar';
+import TaskList from './components/taskList';
+import TaskFilter from './components/taskFilter';
+
+
 
 const todoList = () => {
 
@@ -43,6 +51,8 @@ const todoList = () => {
     setTasks([...tasks, newTask])
     setTask('');
   }
+
+  // console.log(tasks);
 
 // ***********************************************
 //   Delete Task Function
@@ -104,67 +114,13 @@ const todoList = () => {
     <div className="todo-page">
       <div className="todo-container">
 
-        <header className="todo-header">
-          <div className="header-icon">✓</div>
-          <span className="header-label">MY WORKSPACE</span>
-          <h1>My To-Do List</h1>
-          <p>Stay organized and make every day productive.</p>
-        </header>
-
         <div className="todo-card">
-
-          <div className="progress-section">
-            <div>
-              <h2>Today's Progress</h2>
-              <p>Keep going! You've got this.</p>
-            </div>
-            <div className="progress-count">{completdTask.length} / {tasks.length}</div>
-          </div>
-
-          <div className="progress-track">
-            <div className="progress-fill" style={{width:`${progressvalue(completdTask.length, tasks.length)}%`}}></div>
-          </div>
-
-          <div className="task-form">
-            <input
-              type="text"
-              placeholder="What do you need to do?"
-              className="task-input"
-              value={task}
-              onChange={(e)=> setTask(e.target.value)}
-            />
-            <button className="add-btn" onClick={addTask}>+ Add Task</button>
-          </div>
-          <div className="tasks-topbar">
-            <h3>My Tasks <span>{tasks.length}</span></h3>
-
-            <div className="task-filters">
-              <button className={`filter-btn ${filter == 'all' ? 'active': ''}`} onClick={()=> setFilter('all')}>All</button>
-              <button className={`filter-btn ${filter == 'active' ? 'active': ''}`} onClick={()=> setFilter('active')}>Active</button>
-              <button className={`filter-btn ${filter == 'completed' ? 'active': ''}`} onClick={()=> setFilter('completed')}>Completed</button>
-            </div>
-          </div>
-
-          <div className="task-list">
-            {filterTasks.map((item, index)=>(
-              <div className={`task-item ${item.iscompleted ? 'completed' : ''} `} Key={item.id}>
-                <label className="task-check">
-                  <input type="checkbox" checked={item.iscompleted} onChange={()=>toggleTask(item.id)}/>
-                  <span className="checkmark"></span>
-                </label>
-                <div className="task-content">
-                  <p>{item.text}</p>
-                </div>
-                <button className="delete-btn" onClick={()=>deleteTask(item.id)}>✕</button>
-              </div>
-            ))}
-          </div>
-
-          <div className="todo-footer">
-            <span>{remaningTask.length} tasks remaining</span>
-            <button className="clear-btn" onClick={()=>clearCompleteTask(tasks)}>Clear Completed</button>
-          </div>
-
+            <TodoHeader />
+            <TaskForm  task={task} addTask={addTask} setTask={setTask}/>
+            <ProgressBar tasks={tasks} completdTask={completdTask} progressvalue={progressvalue}/>
+            <TaskFilter tasks={tasks} setFilter={setFilter} filter={filter}/>
+           { tasks.length !== 0 ? <TaskList filterTasks={filterTasks} deleteTask={deleteTask} toggleTask={toggleTask}/> : ''}            
+            <TaskFooter remaningTask={remaningTask} tasks={tasks} clearCompleteTask={clearCompleteTask} />
         </div>
 
         <p className="bottom-text">Small steps every day lead to big results ✨</p>
